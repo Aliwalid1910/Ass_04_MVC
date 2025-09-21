@@ -24,7 +24,8 @@ namespace Demo.Presentation
 
             app.UseRouting();
 
-            app.UseAuthorization();
+            app.UseAuthorization();  // Roles
+            app.UseAuthentication(); // Login
 
             app.MapControllerRoute(
                 name: "default",
