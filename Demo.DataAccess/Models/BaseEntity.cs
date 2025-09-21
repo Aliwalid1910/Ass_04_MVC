@@ -1,6 +1,6 @@
 ﻿namespace Demo.DataAccess.Models
 {
-    internal class BaseEntity // Include Common Properties [Parent]
+    public class BaseEntity // Include Common Properties [Parent]
     {
         public int Id { get; set; }
         public int CreatedBy { get; set; }  // User Id
