@@ -1,6 +1,7 @@
 ﻿using Demo.DataAccess.Data.Contexts;
+using Demo.DataAccess.Repositories.Interfaces;
 
-namespace Demo.DataAccess.Repositories
+namespace Demo.DataAccess.Repositories.Classes
 {
     public class DepartmentRepositorie(ApplicationDbContext _dbContext) : IDepartmentRepositorie
     {

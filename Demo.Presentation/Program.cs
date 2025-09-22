@@ -1,5 +1,8 @@
+using Demo.BusinessLogic.Services.Classes;
+using Demo.BusinessLogic.Services.Interfaces;
 using Demo.DataAccess.Data.Contexts;
-using Demo.DataAccess.Repositories;
+using Demo.DataAccess.Repositories.Classes;
+using Demo.DataAccess.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace Demo.Presentation
@@ -23,6 +26,9 @@ namespace Demo.Presentation
 
             builder.Services.AddScoped<IDepartmentRepositorie, DepartmentRepositorie>();
             // When Anyone Ask you To Create Object From Class Implement IDepartmentRepositorie Interface ==> Create Instance From DepartmentRepositorie
+            builder.Services.AddScoped<IDepartmentService, DepartmentService>();
+
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
