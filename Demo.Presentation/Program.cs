@@ -1,4 +1,5 @@
 using Demo.DataAccess.Data.Contexts;
+using Demo.DataAccess.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace Demo.Presentation
@@ -19,7 +20,9 @@ namespace Demo.Presentation
                 //options.UseSqlServer("Connection string");
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnectionString"));
             });
-                
+
+            builder.Services.AddScoped<IDepartmentRepositorie, DepartmentRepositorie>();
+            // When Anyone Ask you To Create Object From Class Implement IDepartmentRepositorie Interface ==> Create Instance From DepartmentRepositorie
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
