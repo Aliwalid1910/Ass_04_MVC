@@ -1,6 +1,7 @@
 ﻿using Demo.BusinessLogic.DTOS;
 using Demo.BusinessLogic.Services.Classes;
 using Demo.BusinessLogic.Services.Interfaces;
+using Demo.Presentation.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
 
@@ -35,7 +36,7 @@ namespace Demo.Presentation.Controllers
                     int result = _departmentService.AddDepartment(departmentDto);
                     if (result > 0)
                     {
-                       return RedirectToAction(nameof(Index));    
+                        return RedirectToAction(nameof(Index));
                     }
                     else
                     {
@@ -54,7 +55,7 @@ namespace Demo.Presentation.Controllers
                     {
                         _logger.LogError($"Department Con not be created becouse : {ex.Message}");
                         //return View(departmentDto);
-                        return View("Error view");
+                        return View("Error view" ,ex);
                     }
                 }
             }
@@ -66,11 +67,119 @@ namespace Demo.Presentation.Controllers
         #region Details
         [HttpGet]
         public IActionResult Details(int? id)
-        { 
-            if(!id.HasValue) return BadRequest();
+        {
+            if (!id.HasValue) return BadRequest();
             var department = _departmentService.GetDepartmentById(id.Value);
             if (department is null) return NotFound();
             return View(department);
+        }
+        #endregion
+
+        #region Edit
+        [HttpGet]
+        public IActionResult Edit(int? id)
+        {
+            if (!id.HasValue) return BadRequest();
+            var department = _departmentService.GetDepartmentById(id.Value);
+            if (department is null) return NotFound();
+            //return View(department);
+            var departmentVM = new DepartmentEditViewModel()
+            {
+                Code = department.Code,
+                Description = department.Description,
+                Name = department.Name,
+                CreatedOn = department.CreatedOn.HasValue ? department.CreatedOn.Value : default
+            };
+            return View(departmentVM);
+        }
+
+        [HttpPost]
+        public IActionResult Edit([FromRoute]int? id, DepartmentEditViewModel departmentVM)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    if (!id.HasValue) return BadRequest();
+                    var updatedDeptDto = new UpdatedDepartmentDto()
+                    {
+                        Id = id.Value,
+                        Code = departmentVM.Code,
+                        Description = departmentVM.Description,
+                        Name = departmentVM.Name,
+                        DateOfCreation = departmentVM.CreatedOn
+                    };
+                    int result = _departmentService.UpdateDepartment(updatedDeptDto);
+                    if (result > 0)
+                    {
+                        return RedirectToAction(nameof(Index));
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, "Department can not be updated");
+                        
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                    if (_env.IsDevelopment())
+                    {
+                        _logger.LogError($"Department Con not be created becouse : {ex.Message}");
+
+                    }
+                    else
+                    {
+                        _logger.LogError($"Department Con not be created becouse : {ex.Message}");
+                        return View("Error view" , ex);
+                    }
+                }
+            }
+            return View(departmentVM);
+        }
+
+        #endregion
+
+        #region Delete
+        //[HttpGet]
+        //public IActionResult Delete(int? id)
+        //{
+        //    if (!id.HasValue) return BadRequest();
+        //    var department = _departmentService.GetDepartmentById(id.Value);
+        //    if (department is null) return NotFound();
+        //    return View(department);
+
+        //}
+        [HttpPost]
+        public IActionResult Delete(int id)
+        {
+            if (id == 0) return BadRequest();
+            try
+            {
+                bool IsDeleted = _departmentService.DeleteDepartment(id);
+                if (IsDeleted)
+                    return RedirectToAction(nameof(Index));
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Department Can not be Deleted");
+                    return RedirectToAction(nameof(Delete), new { id });
+                }
+
+            }
+            catch (Exception ex)
+            {
+                if (_env.IsDevelopment())
+                {
+                    _logger.LogError($"Department Con not be created becouse : {ex.Message}");
+
+                }
+                else
+                {
+                    _logger.LogError($"Department Con not be created becouse : {ex.Message}");
+                    return View("Error view", ex);
+                }
+            }
+            return RedirectToAction(nameof(Delete), new { id });
         }
         #endregion
     }
