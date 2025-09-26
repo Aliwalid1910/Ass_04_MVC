@@ -1,4 +1,6 @@
-﻿using System.Security.Principal;
+﻿using Demo.DataAccess.Models.DepartmentModule;
+using Demo.DataAccess.Models.EmployeeModule;
+using System.Security.Principal;
 
 namespace Demo.DataAccess.Data.Contexts
 {
@@ -15,6 +17,7 @@ namespace Demo.DataAccess.Data.Contexts
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
         public DbSet<Department> Departments { get; set; }
+        public DbSet<Employee> Employees { get; set; }
 
     }
 }
