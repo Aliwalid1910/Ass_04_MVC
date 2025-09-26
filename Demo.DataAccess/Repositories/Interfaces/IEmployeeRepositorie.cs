@@ -3,7 +3,7 @@ using Demo.DataAccess.Models.EmployeeModule;
 
 namespace Demo.DataAccess.Repositories.Interfaces
 {
-    internal interface IEmployeeRepositorie: IGenericRepositorie<Employee>
+    public interface IEmployeeRepositorie: IGenericRepositorie<Employee>
     {
     }
 }

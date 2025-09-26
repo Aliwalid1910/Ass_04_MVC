@@ -27,6 +27,7 @@ namespace Demo.Presentation
             builder.Services.AddScoped<IDepartmentRepositorie, DepartmentRepositorie>();
             // When Anyone Ask you To Create Object From Class Implement IDepartmentRepositorie Interface ==> Create Instance From DepartmentRepositorie
             builder.Services.AddScoped<IDepartmentService, DepartmentService>();
+            builder.Services.AddScoped<IEmployeeRepositorie, EmployeeRepositorie>();
 
 
             var app = builder.Build();
