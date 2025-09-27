@@ -128,8 +128,41 @@ namespace Demo.Presentation.Controllers
 
         }
 
+        [HttpPost]
+        public IActionResult Delete(int id)
+        {
+            if (id == 0) return BadRequest();
+            try
+            {
+                bool IsDeleted = _employeeService.DeleteEmployee(id);
+                if (IsDeleted)
+                    return RedirectToAction(nameof(Index));
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Employee Can not be Deleted");
+                    return RedirectToAction(nameof(Delete), new { id });
+                }
 
+            }
+            catch (Exception ex)
+            {
+                if (_env.IsDevelopment())
+                {
+                    _logger.LogError($"Employee Con not be created becouse : {ex.Message}");
 
+                }
+                else
+                {
+                    _logger.LogError($"Employee Con not be created becouse : {ex.Message}");
+                    return View("Error view", ex);
+                }
+            }
+            return RedirectToAction(nameof(Delete), new { id });
+        }
     }
+
+
+
 }
+
 
