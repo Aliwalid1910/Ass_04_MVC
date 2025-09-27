@@ -58,6 +58,17 @@ namespace Demo.Presentation.Controllers
             return View(employeeDto);
 
         }
+
+        [HttpGet]
+        public IActionResult Details(int? id)
+        {
+            if (!id.HasValue) return BadRequest();
+            var employee = _employeeService.GetEmployeeById(id.Value);
+            if (employee is null) return NotFound();
+            return View(employee);
+        }
+
+
     }
 }
 
