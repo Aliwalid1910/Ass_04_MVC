@@ -31,7 +31,7 @@ namespace Demo.Presentation
             builder.Services.AddScoped<IEmployeeRepositorie, EmployeeRepositorie>();
             //builder.Services.AddAutoMapper(cfg => { }, typeof(MappingProfile).Assembly);
             builder.Services.AddAutoMapper(Mapping => Mapping.AddProfile(new MappingProfile()));
-
+            builder.Services.AddScoped<IEmployeeService, EmployeeService>();
 
 
 
