@@ -1,3 +1,4 @@
+using Demo.BusinessLogic.Mappings;
 using Demo.BusinessLogic.Services.Classes;
 using Demo.BusinessLogic.Services.Interfaces;
 using Demo.DataAccess.Data.Contexts;
@@ -28,6 +29,10 @@ namespace Demo.Presentation
             // When Anyone Ask you To Create Object From Class Implement IDepartmentRepositorie Interface ==> Create Instance From DepartmentRepositorie
             builder.Services.AddScoped<IDepartmentService, DepartmentService>();
             builder.Services.AddScoped<IEmployeeRepositorie, EmployeeRepositorie>();
+            //builder.Services.AddAutoMapper(cfg => { }, typeof(MappingProfile).Assembly);
+            builder.Services.AddAutoMapper(Mapping => Mapping.AddProfile(new MappingProfile()));
+
+
 
 
             var app = builder.Build();
